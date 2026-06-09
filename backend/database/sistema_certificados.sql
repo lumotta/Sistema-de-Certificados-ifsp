@@ -33,18 +33,8 @@ CREATE TABLE `certificados` (
   KEY `evento_id` (`evento_id`),
   CONSTRAINT `certificados_ibfk_1` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id`),
   CONSTRAINT `certificados_ibfk_2` FOREIGN KEY (`evento_id`) REFERENCES `eventos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `certificados`
---
-
-LOCK TABLES `certificados` WRITE;
-/*!40000 ALTER TABLE `certificados` DISABLE KEYS */;
-INSERT INTO `certificados` VALUES (1,1,1,'CERT-2026-0001');
-/*!40000 ALTER TABLE `certificados` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `eventos`
@@ -63,16 +53,6 @@ CREATE TABLE `eventos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `eventos`
---
-
-LOCK TABLES `eventos` WRITE;
-/*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (1,'Semana de Tecnologia','2026-06-15',8);
-/*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `participantes`
 --
 
@@ -87,18 +67,8 @@ CREATE TABLE `participantes` (
   `instituicao` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cpf` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `participantes`
---
-
-LOCK TABLES `participantes` WRITE;
-/*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (1,'João Silva','12345678900','joao@email.com','IFSP');
-/*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `presencas`
@@ -116,18 +86,8 @@ CREATE TABLE `presencas` (
   KEY `evento_id` (`evento_id`),
   CONSTRAINT `presencas_ibfk_1` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id`),
   CONSTRAINT `presencas_ibfk_2` FOREIGN KEY (`evento_id`) REFERENCES `eventos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `presencas`
---
-
-LOCK TABLES `presencas` WRITE;
-/*!40000 ALTER TABLE `presencas` DISABLE KEYS */;
-INSERT INTO `presencas` VALUES (1,1,1);
-/*!40000 ALTER TABLE `presencas` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `usuarios`
@@ -145,15 +105,6 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usuarios`
---
-
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -164,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-08 17:35:37
+-- Dump completed on 2026-06-09 17:50:27
