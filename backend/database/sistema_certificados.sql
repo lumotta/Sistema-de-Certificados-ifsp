@@ -48,6 +48,7 @@ CREATE TABLE `eventos` (
   `titulo` varchar(150) NOT NULL,
   `data_evento` date NOT NULL,
   `carga_horaria` int(11) NOT NULL,
+  `descricao` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -115,4 +116,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-09 17:50:27
+-- Dump completed on 2026-06-11 15:08:03
