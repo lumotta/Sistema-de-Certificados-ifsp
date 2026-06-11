@@ -22,16 +22,33 @@ app.get("/registro", (req, res) => {
 
 
 
-app.post("/registro/confirmado", function(req, res) {
-    Usuario.create({
-        nome: req.body.nome, //Pega o valor do campo "nome" do formulário enviado pelo cliente e atribui ao campo "nome" do modelo "Usuario"
-        email: req.body.email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
-        senha: req.body.senha //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
-    }).then(function() {
-        confirmacao = true; //Define a variável de confirmação como true para indicar que o registro foi confirmado
-        res.redirect("/registro"); //Redireciona o cliente para a rota "/registro" para exibir a mensagem de confirmação
-    }).catch(function(erro) {
-        error = true; //Define a variável de erro como true para indicar que houve um problema ao criar o usuário
-        res.redirect("/registro"); //Redireciona o cliente para a rota "/registro" para exibir a mensagem de erro
+app.post("/registro/confirmacao", function(req, res) {
+
+        var nome = req.body.nome; //Extrai o valor do campo "nome" do corpo da requisição POST, permitindo acessar o nome do usuário enviado pelo cliente
+        var email = req.body.email;
+        var senha = req.body.senha; //Extrai o valor do campo "senha" do corpo da requisição POST, permitindo acessar a senha do usuário enviado pelo cliente
+        
+        if(nome === "" || email === "" || senha === "") { //Verifica se algum dos campos do formulário está vazio, indicando que o usuário não preencheu todos os campos necessários para o registro
+            error = true; //Define a variável "error" como true, indicando que ocorreu um erro durante o processo de registro, o que pode ser usado para exibir uma mensagem de erro na página de registro ou para outras lógicas relacionadas ao estado de erro durante o registro
+            nome = "";
+            email = "";
+            senha = "";
+            res.redirect("/registro"); //Redireciona o usuário de volta para a página de registro, permitindo que ele preencha os campos corretamente
+        }
+        else {
+            Usuario.create({
+                nome: nome, //Pega o valor do campo "nome" do formulário enviado pelo cliente e atribui ao campo "nome" do modelo "Usuario"
+                email: email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
+                senha: senha}) //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
+
+
+            confirmacao = true; //Define a variável "confirmacao" como true, indicando que o registro foi confirmado com sucesso, o que pode ser usado para exibir uma mensagem de confirmação na página de login ou para outras lógicas relacionadas ao estado de confirmação durante o registro
+            nome = "";
+            email = "";
+            senha = "";
+
+            res.redirect("/registro"); //Redireciona o usuário para a página de login, permitindo que ele faça login com suas credenciais recém-criadas
+        }
     });
-});
+
+    module.exports = confirmacao; //Exporta a variável "confirmacao" para ser usada em outros arquivos, como src/server.js, permitindo controlar o estado de confirmação do registro em diferentes partes do aplicativo

@@ -24,7 +24,7 @@ app.post("/login/confirmacao", async (req, res) => {
         const usuario = await Usuario.findOne({where: {email: email, senha: senha}}); //Busca um usuário no banco de dados que corresponda ao email e senha fornecidos, usando o método findOne do modelo "Usuario" para verificar se as credenciais de login são válidas
         if (usuario) {
             nome = usuario.nome; //Armazena o nome do usuário encontrado em uma variável global
-            res.send("Login bem-sucedido!"); //Se um usuário for encontrado, envia uma resposta indicando que o login foi bem-sucedido
+            res.redirect("/home"); //Redireciona o usuário para a página inicial ou dashboard após um login bem-sucedido, permitindo que ele acesse as funcionalidades do sistema
         } else {
             res.redirect("/login"); //Redireciona o usuário de volta para a página de login, permitindo que ele tente fazer login novamente se as credenciais estiverem incorretas
             erro = true; //Define a variável "erro" como true, indicando que ocorreu um erro durante o processo de login, o que pode ser usado para exibir uma mensagem de erro na página de login ou para outras lógicas relacionadas ao estado de erro durante o login
@@ -36,7 +36,3 @@ app.post("/login/confirmacao", async (req, res) => {
 
 });
 
-
-app.post("/home", (req, res) => {
-    res.render("home", {"nome": nome}); //Renderiza a página "home" e passa o nome do usuário como um parâmetro para ser exibido na página, permitindo personalizar a experiência do usuário após um login bem-sucedido
-})

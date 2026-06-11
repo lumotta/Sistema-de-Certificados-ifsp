@@ -27,7 +27,7 @@ module.exports = {
 
 const Registro = require('./Conta/Registro'); //Importa o módulo de registro para configurar as rotas relacionadas ao registro de usuários
 const Login = require('./Conta/Login'); //Importa o módulo de login para configurar as rotas relacionadas ao login de usuários
-
+const CriarEvento = require('./Eventos/Criar'); //Importa o módulo de criação de eventos para configurar as rotas relacionadas à criação de eventos
 
 
 
@@ -39,7 +39,6 @@ Quando for para mandar um arquivo HTML, usar o método sendFile() do objeto res,
 app.get("/pagina", (req, res) => {
     res.sendFile(__dirname + "/pagina.html"); //Envia o arquivo "pagina.html" para o cliente quando acessar a rota "/pagina"
 });
-
 
 
 */  

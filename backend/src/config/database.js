@@ -10,16 +10,10 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 });
 
 
-
-
 module.exports = {
     sequelize: sequelize, //Exporta a instância do sequelize para ser usada em outros arquivos, como src/server.js
     Sequelize: Sequelize //Exporta o módulo Sequelize para ser usado em outros arquivos, como src/server.js
 };
-
-
-
-
 
 
 sequelize.authenticate()
