@@ -1,0 +1,21 @@
+<form action="/registro/confirmado" method="POST"> 
+    {{#if error}}
+        <p style="color: red;">Houver um erro ao criar o usuário.</p>
+    {{/if}}
+
+    {{#if confirmacao}}
+        <p style="color: green;">Usuario criado com sucesso</p>
+    {{/if}}
+    
+    
+    
+    <p>Nome: </p>
+    <input type="text" name="nome" id="nome">
+    <p>email: </p>
+    <input type="email" name="email" id="email"><br>
+    <p>senha: </p>
+    <input type="password" name="senha" id="senha" minlength="8"><br> <br>
+    
+    
+    <button type="submit">Enviar</button>
+</form>

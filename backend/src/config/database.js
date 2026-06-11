@@ -1,17 +1,31 @@
-const mysql = require('mysql2/promise'); // Importa a biblioteca mysql2
-require('dotenv').config(); // Carrega as variáveis do arquivo .env
+require('dotenv').config(); //Carrega as variáveis de ambiente do arquivo .env
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env; //Desestrutura as variáveis de ambiente para facilitar o uso
 
-// Cria um pool de conexões com o banco de dados
-const pool = mysql.createPool({
-    // Endereço do servidor do banco (localhost = seu computador)
-    host: process.env.DB_HOST,
-    // Usuário do banco de dados
-    user: process.env.DB_USER,
-    // Senha do usuário do banco
-    password: process.env.DB_PASSWORD,
-    // Nome do banco
-    database: process.env.DB_NAME
+
+const Sequelize = require('sequelize'); //Importa o módulo sequelize
+
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    dialect: 'mysql'
 });
 
-// Exporta o pool para que outros arquivos
-module.exports = pool;
+
+
+
+module.exports = {
+    sequelize: sequelize, //Exporta a instância do sequelize para ser usada em outros arquivos, como src/server.js
+    Sequelize: Sequelize //Exporta o módulo Sequelize para ser usado em outros arquivos, como src/server.js
+};
+
+
+
+
+
+
+sequelize.authenticate()
+    .then(() => {
+        console.log('Conexão com o banco de dados estabelecida com sucesso!');
+    })
+    .catch(err => {
+        console.error('Não foi possível conectar ao banco de dados:', err);
+    });
