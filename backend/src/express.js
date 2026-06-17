@@ -28,7 +28,7 @@ module.exports = {
 const Registro = require('./Conta/Registro'); //Importa o módulo de registro para configurar as rotas relacionadas ao registro de usuários
 const Login = require('./Conta/Login'); //Importa o módulo de login para configurar as rotas relacionadas ao login de usuários
 const CriarEvento = require('./Eventos/Criar'); //Importa o módulo de criação de eventos para configurar as rotas relacionadas à criação de eventos
-
+const ver = require('./Eventos/Mostrar')
 
 
 
