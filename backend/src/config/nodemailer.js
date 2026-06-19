@@ -13,26 +13,4 @@ const transporter = nodemailer.createTransport(
 
 
 })
-
-async function mailOptions(email, codigo) {
-    return{
-    from: process.env.DB_EMAIL,
-    to: email,
-    subject:'test',
-    text: codigo
-    }
-}
-
-
-async function enviarEmail(config) {
-  try {
-    const info = await transporter.sendMail(config);
-    console.log('E-mail enviado!', info.messageId);
-    // info.messageId → ID único gerado pelo servidor SMTP
-    // info.response  → resposta raw do servidor (ex: "250 OK")
-  } catch (erro) {
-    console.error('Erro ao enviar:', erro);
-  }
-}
-
-module.exports= {enviarEmail, mailOptions}
+module.exports = transporter

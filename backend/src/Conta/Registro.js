@@ -1,8 +1,11 @@
 const {app} = require('../express'); //Importa o objeto app do arquivo express.js para configurar as rotas e iniciar o servidor
 const Usuario = require('./Usuario');
-const {mailOption} = require('../config/nodemailer')
-let {enviarEmail} = require('../config/nodemailer')
+const transporter = require('../config/nodemailer')
 const bcrypt = require('bcrypt')//Importa o bcrypt que é uma forma de criptografia
+const crypto = require('crypto')
+require('dotenv').config();
+
+
 
 let confirmacao = false; //Variável para controlar a confirmação do registro, inicialmente definida como false
 let error = false; //Variável para controlar a ocorrência de erros, inicialmente definida como false
@@ -29,34 +32,80 @@ app.get("/registro", (req, res) => {
 
 app.post("/registro/confirmacao", async function(req, res) {
 
-        const {nome, email, senha} = req.body //Extrai o valor do campo "nome" do corpo da requisição POST, permitindo acessar o nome do usuário enviado pelo cliente
+        const {nome, email, senha, senhaN} = req.body //Extrai o valor do campo "nome" do corpo da requisição POST, permitindo acessar o nome do usuário enviado pelo cliente
 
-        const cripto = await bcrypt.hash(senha, 10);
-
-        req.session.nome = nome
-        req.session.email = email
-        req.session.senha = cripto
-
-        const dominiodigitado = req.session.email.split('@')[1]
-
-        if(dominiodigitado != dominio)
+        if(senha != senhaN)
             error = true
+        else{
+
+
+            const criptoS = await bcrypt.hash(senha, 10);
+            const criptoE = await bcrypt.hash(email, 10)
+
+            req.session.nome = nome
+            req.session.email = email
+            req.session.senha = criptoS
+
+            const dominiodigitado = req.session.email.split('@')[1]
+
+            if(dominiodigitado != dominio)
+                error = true
             
             
         
-        if(req.session.nome === "" || req.session.email === "" || req.session.senha === "")//Verifica se algum dos campos do formulário está vazio, indicando que o usuário não preencheu todos os campos necessários para o registro
-            error = true; //Define a variável "error" como true, indicando que ocorreu um erro durante o processo de registro, o que pode ser usado para exibir uma mensagem de erro na página de registro ou para outras lógicas relacionadas ao estado de erro durante o registro
+            else if(req.session.nome === "" || req.session.email === "" || req.session.senha === "")//Verifica se algum dos campos do formulário está vazio, indicando que o usuário não preencheu todos os campos necessários para o registro
+             error = true; //Define a variável "error" como true, indicando que ocorreu um erro durante o processo de registro, o que pode ser usado para exibir uma mensagem de erro na página de registro ou para outras lógicas relacionadas ao estado de erro durante o registro
          
-        else {
-            Usuario.create({
-                nome: req.session.nome, //Pega o valor do campo "nome" do formulário enviado pelo cliente e atribui ao campo "nome" do modelo "Usuario"
-                email: req.session.email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
-                senha: req.session.senha}) //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
-
-                confirmacao = true
+            else {
+                    res.redirect('/registro/codigo')
+            }
         }
-        res.redirect("/registro")
-    });
+        if (error == true)
+            {res.redirect("/registro")}
 
+
+    app.get('/registro/codigo', async function (req, res) {
+        
+        const token = crypto.randomBytes(32).toString('hex')
+        req.session.token = token
+
+        res.render('codigo')
+        const mailOptions ={
+            from: process.env.DB_EMAIL,
+            to: req.session.email,
+            subject:'test',
+            text: req.session.token
+            }
+
+            await transporter.sendMail(mailOptions, (erro, info) => {
+             if (erro) {
+                console.log(erro);
+            } else {
+                console.log("Email enviado:", info.response);
+            }})
+           
+        })
+        
+    })
     module.exports = confirmacao; //Exporta a variável "confirmacao" para ser usada em outros arquivos, como src/server.js, permitindo controlar o estado de confirmação do registro em diferentes partes do aplicativo
 
+    app.post('/registro/codigo/confirmacao', (req, res) => {
+            const {codigo} = req.body
+
+            req.session.codigo = codigo
+
+            if(req.session.codigo == req.session.token)
+            {
+                Usuario.create({
+                    nome: req.session.nome, //Pega o valor do campo "nome" do formulário enviado pelo cliente e atribui ao campo "nome" do modelo "Usuario"
+                    email: req.session.email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
+                    senha: req.session.senha}) //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
+                    confirmacao = true
+
+            }
+
+            else{
+                error = true
+            }
+            res.redirect('/registro')
+    })
