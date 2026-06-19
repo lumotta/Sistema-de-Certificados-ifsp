@@ -6,7 +6,7 @@ const crypto = require('crypto')
 require('dotenv').config();
 
 
-
+var jafoi
 let confirmacao = false; //Variável para controlar a confirmação do registro, inicialmente definida como false
 let error = false; //Variável para controlar a ocorrência de erros, inicialmente definida como false
 
@@ -40,7 +40,6 @@ app.post("/registro/confirmacao", async function(req, res) {
 
 
             const criptoS = await bcrypt.hash(senha, 10);
-            const criptoE = await bcrypt.hash(email, 10)
 
             req.session.nome = nome
             req.session.email = email
@@ -62,31 +61,33 @@ app.post("/registro/confirmacao", async function(req, res) {
         }
         if (error == true)
             {res.redirect("/registro")}
+        })
 
 
     app.get('/registro/codigo', async function (req, res) {
-        
-        const token = crypto.randomBytes(32).toString('hex')
-        req.session.token = token
 
-        res.render('codigo')
-        const mailOptions ={
-            from: process.env.DB_EMAIL,
-            to: req.session.email,
-            subject:'test',
-            text: req.session.token
-            }
+        if (!jafoi){
+            const token = crypto.randomBytes(32).toString('hex')
+            req.session.token = token
 
-            await transporter.sendMail(mailOptions, (erro, info) => {
-             if (erro) {
-                console.log(erro);
-            } else {
-                console.log("Email enviado:", info.response);
+
+            const mailOptions ={
+                from: process.env.DB_EMAIL,
+                to: req.session.email,
+                subject:'test',
+                text: req.session.token
+                }
+
+                await transporter.sendMail(mailOptions, (erro, info) => {
+                if (erro) {
+                 console.log(erro);
+                } else {
+                 console.log("Email enviado:", info.response);
+                }})
+            res.render('codigo') 
             }})
-           
-        })
         
-    })
+  
     module.exports = confirmacao; //Exporta a variável "confirmacao" para ser usada em outros arquivos, como src/server.js, permitindo controlar o estado de confirmação do registro em diferentes partes do aplicativo
 
     app.post('/registro/codigo/confirmacao', (req, res) => {
@@ -101,11 +102,13 @@ app.post("/registro/confirmacao", async function(req, res) {
                     email: req.session.email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
                     senha: req.session.senha}) //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
                     confirmacao = true
+                    res.redirect('/registro')
 
             }
 
             else{
-                error = true
+                jafoi = true 
+                res.redirect('/registro/codigo')
             }
-            res.redirect('/registro')
+            
     })
