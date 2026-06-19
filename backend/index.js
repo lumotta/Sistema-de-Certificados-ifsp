@@ -1,7 +1,8 @@
 const database = require('./src/config/database'); //Pega o módulo de conexão com o banco de dados criado em src/config/database.js
 const server = require('./src/express'); //Pega o módulo do servidor criado em src/server.js
 const {app} = require('./src/express'); //Pega o módulo do Express criado em src/express.js
-
+const nodemailer = require('./src/config/nodemailer');
+const enviarEmail = require('./src/config/nodemailer');
 
 
 

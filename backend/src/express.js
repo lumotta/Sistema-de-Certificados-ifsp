@@ -1,10 +1,24 @@
 const express = require('express');
 const {engine} = require('express-handlebars'); //Importa o módulo handlebars
 const bodyparser = require('body-parser'); //Importa o módulo body-parser para lidar com dados de formulários
-
+const session = require('express-session')
+require('dotenv').config();
 
 
 const app = express(); //Cria o objeto app que será a principal forma de configurar o servidor
+
+app.use(session({ //criador de uma sessão para que não haja erro se mais de um úsuario acessar ao mesmo tempo
+  secret: process.env.DB_SECRET, // Chave para assinar o sessionID
+  resave: false,               //
+  saveUninitialized: false,    
+  cookie: {
+    secure: false,              
+    httpOnly: true,           
+    sameSite: 'strict',        
+    maxAge: 1000 * 60 * 60     
+  }
+}));
+
 
 
 //config

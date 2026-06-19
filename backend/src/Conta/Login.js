@@ -1,12 +1,13 @@
 const {app} = require('../express'); //Importa o objeto app do arquivo express.js para configurar as rotas e iniciar o servidor
 const {handlebarsConfig} = require('../express'); //Importa a função handlebarsConfig do arquivo express.js para configurar o handlebars e o body-parser
 const Usuario = require('./Usuario'); //Importa o modelo "Usuario" para interagir com a tabela "usuarios" no banco de dados
+const bcrypt = require('bcrypt') //Importa o bcrypt que é uma forma de criptografia
 
 handlebarsConfig(app); //Chama a função handlebarsConfig para configurar o handlebars e o body-parser, permitindo renderizar templates e lidar com dados de formulários
 
 let erro = false; //Declara uma variável "erro" e a inicializa como false, que pode ser usada para indicar se ocorreu um erro durante o processo de login
 
-let nome = ""; //Declara uma variável "nome" e a inicializa como uma string vazia, que pode ser usada para armazenar o nome do usuário durante o processo de login ou para outras finalidades relacionadas ao nome do usuário
+
 
 app.get("/login", (req, res) => {
     if (erro) {
@@ -21,8 +22,11 @@ app.get("/login", (req, res) => {
 app.post("/login/confirmacao", async (req, res) => { 
     const {email, senha} = req.body; //Extrai os parâmetros "email" e "senha" do corpo da requisição POST, permitindo acessar os dados de login enviados pelo cliente
     try {
-        const usuario = await Usuario.findOne({where: {email: email, senha: senha}}); //Busca um usuário no banco de dados que corresponda ao email e senha fornecidos, usando o método findOne do modelo "Usuario" para verificar se as credenciais de login são válidas
-        if (usuario) {
+        const usuario = await Usuario.findOne({where: {email: email}}); //Busca um usuário no banco de dados que corresponda ao email e senha fornecidos, usando o método findOne do modelo "Usuario" para verificar se as credenciais de login são válidas
+        
+        const testSenha = await bcrypt.compare(senha, usuario.senha) //Aqui é realizado uma comparação entre a senha do banco de dados(criptografada) e a digitada
+
+        if (usuario && testSenha) {
             nome = usuario.nome; //Armazena o nome do usuário encontrado em uma variável global
             res.redirect("/home"); //Redireciona o usuário para a página inicial ou dashboard após um login bem-sucedido, permitindo que ele acesse as funcionalidades do sistema
         } else {
