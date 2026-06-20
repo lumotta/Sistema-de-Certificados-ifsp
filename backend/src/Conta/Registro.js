@@ -1,9 +1,14 @@
-const {app} = require('../express'); //Importa o objeto app do arquivo express.js para configurar as rotas e iniciar o servidor
-const Usuario = require('./Usuario');
+const {app} = require('../express') //Importa o objeto app do arquivo express.js para configurar as rotas e iniciar o servidor
+const Usuario = require('./Usuario')
+const Codigo = require('./Codigo')
 const transporter = require('../config/nodemailer')
 const bcrypt = require('bcrypt')//Importa o bcrypt que é uma forma de criptografia
 const crypto = require('crypto')
+const { DATE } = require('sequelize')
 require('dotenv').config();
+
+
+
 
 
 var jafoi
@@ -11,7 +16,7 @@ let confirmacao = false; //Variável para controlar a confirmação do registro,
 let error = false; //Variável para controlar a ocorrência de erros, inicialmente definida como false
 
 const dominio = 'aluno.ifsp.edu.br'
-
+const expirar = 10 * 60 * 1000
 
 app.get("/registro", (req, res) => {
     if (confirmacao) {
@@ -70,6 +75,16 @@ app.post("/registro/confirmacao", async function(req, res) {
             const token = crypto.randomBytes(32).toString('hex')
             req.session.token = token
 
+            Codigo.create({
+                codigo: req.session.token,
+                email: req.session.email,
+                utilizado: 0,
+                data_geracao: new Date(Date.now() + expirar),
+                data_utilizacao: null
+            })
+
+
+            req.session.expiracao = new Date(Date.now() + expirar)
 
             const mailOptions ={
                 from: process.env.DB_EMAIL,
@@ -95,20 +110,34 @@ app.post("/registro/confirmacao", async function(req, res) {
 
             req.session.codigo = codigo
 
-            if(req.session.codigo == req.session.token)
+            if(req.session.codigo == req.session.token && new Date(req.session.expiracao) >= Date.now())
             {
                 Usuario.create({
                     nome: req.session.nome, //Pega o valor do campo "nome" do formulário enviado pelo cliente e atribui ao campo "nome" do modelo "Usuario"
                     email: req.session.email, //Pega o valor do campo "email" do formulário enviado pelo cliente e atribui ao campo "email" do modelo "Usuario"
                     senha: req.session.senha}) //Pega o valor do campo "senha" do formulário enviado pelo cliente e atribui ao campo "senha" do modelo "Usuario"
-                    confirmacao = true
+                    confirmacao = true  
+
+                    Codigo.update({
+                        utilizado: 1,
+                        data_utilizacao: Date.now()},
+                        {
+                            where: {email: req.session.email}
+                    })
+
                     res.redirect('/registro')
 
+            }
+            else if(new Date(req.session.expiracao) <= Date.now())
+            {
+                error = true
+                res.redirect('/registro')
             }
 
             else{
                 jafoi = true 
                 res.redirect('/registro/codigo')
             }
+            
             
     })

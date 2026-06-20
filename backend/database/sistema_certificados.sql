@@ -37,6 +37,25 @@ CREATE TABLE `certificados` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `codigos_verificacao`
+--
+
+DROP TABLE IF EXISTS `codigos_verificacao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `codigos_verificacao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(64) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `utilizado` tinyint(1) DEFAULT 0,
+  `data_geracao` datetime DEFAULT current_timestamp(),
+  `data_utilizacao` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo` (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `eventos`
 --
 
@@ -49,6 +68,8 @@ CREATE TABLE `eventos` (
   `data_evento` date NOT NULL,
   `carga_horaria` int(11) NOT NULL,
   `descricao` text DEFAULT NULL,
+  `local` varchar(255) DEFAULT NULL,
+  `horario` time DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -116,4 +137,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-11 15:08:03
+-- Dump completed on 2026-06-20  8:48:07
