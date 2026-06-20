@@ -47,9 +47,6 @@ CREATE TABLE `codigos_verificacao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo` varchar(64) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `utilizado` tinyint(1) DEFAULT 0,
-  `data_geracao` datetime DEFAULT current_timestamp(),
-  `data_utilizacao` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `codigo` (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -137,4 +134,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-20  8:48:07
+-- Dump completed on 2026-06-20  9:15:52
