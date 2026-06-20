@@ -1,12 +1,22 @@
-<h1>Eventos</h1>
+<h1>Eventos Cadastrados</h1>
 
-{{#each posts}}
+{{#if posts}}
+    {{#each posts}}
+        <article class="evento-item">
+            <h2>{{this.titulo}}</h2>
+            <h3>Data: {{this.data_evento}} | Carga Horária: {{this.carga_horaria}}h</h3>
+            <p>{{this.descricao}}</p>
+            
+            <div class="acoes">
+                <a href="/evento/editar/{{this.id}}"><button type="button">Editar</button></a>
+                <a href="/evento/deletar/{{this.id}}"><button type="button" style="color: red;">Deletar</button></a>
+            </div>
+        </article>
+        <hr>
+    {{/each}}
+{{else}}
+    <p>Nenhum evento encontrado no momento.</p>
+{{/if}}
 
-
-<h1>{{this.titulo}}</h1>
-<h2>{{this.data_evento}}</h2> <h2>{{this.carga_horaria}}h</h2>
-<p>{{this.descricao}}</p>
-<button>Editar</button> <button>Deletar</button>
-<hr>
-
-{{/each}}
+<br>
+<a href="/home"><button type="button">Voltar ao Painel</button></a>

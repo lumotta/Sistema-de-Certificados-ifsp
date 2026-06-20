@@ -1,9 +1,8 @@
-<form action="/registro/codigo/confirmacao" method="post">
+<h2>Verificação de E-mail</h2>
 
-<p>Digite o codigo que enviamos em seu email</p>
-<input type="text" name="codigo" id="codigo">
-
-
-<button type="submit">enviar</button>
-
+<form action="/registro/codigo/confirmacao" method="POST">
+    <label for="codigo">Digite o código que enviamos para o seu e-mail:</label><br><br>
+    <input type="text" name="codigo" id="codigo" placeholder="Ex: 123456" required>
+    <br><br>
+    <button type="submit">Confirmar Código</button>
 </form>

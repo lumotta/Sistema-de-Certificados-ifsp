@@ -1,25 +1,36 @@
-<form action="/registro/confirmacao" method="POST"> 
-    {{#if error}}
-        <p style="color: red;">Houver um erro ao criar o usuário.</p>
-    {{/if}}
+<h2>Criar Nova Conta</h2>
 
-    {{#if confirmacao}}
-        <p style="color: green;">Usuario criado com sucesso</p>
-    {{/if}}
-    
-    
-    
-    <p>Nome: </p>
-    <input type="text" name="nome" id="nome" maxlength="255">
-    <p>email: </p>
-    <input type="email" name="email" id="email" maxlength="255"><br>
-    <p>senha: </p>
-    <input type="password" name="senha" id="senha" minlength="8" maxlength="255">
-    <p>digite novamente:</p>
-    <input type="password" name="senhaN" id="senhaN" minlength="8" maxlength="255"><br> <br>
-    
-    
-    <button type="submit">Enviar</button>
+{{#if error}}
+    <p style="color: red; font-weight: bold;">Houve um erro ao criar o usuário.</p>
+{{/if}}
+
+{{#if confirmacao}}
+    <p style="color: green; font-weight: bold;">Usuário criado com sucesso!</p>
+{{/if}}
+
+<form action="/registro/confirmacao" method="POST"> 
+    <div>
+        <label for="nome">Nome Completo:</label>
+        <input type="text" name="nome" id="nome" maxlength="255" required>
+    </div>
+    <br>
+    <div>
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" id="email" maxlength="255" required>
+    </div>
+    <br>
+    <div>
+        <label for="senha">Senha (Mínimo 8 caracteres):</label>
+        <input type="password" name="senha" id="senha" minlength="8" maxlength="255" required>
+    </div>
+    <br>
+    <div>
+        <label for="senhaN">Confirme a Senha:</label>
+        <input type="password" name="senhaN" id="senhaN" minlength="8" maxlength="255" required>
+    </div>
+    <br>
+    <button type="submit">Enviar Registro</button>
 </form>
 
-<button><a href="/login">Voltar para o login</a></button>
+<hr>
+<a href="/login"><button type="button">Voltar para o Login</button></a>

@@ -1,13 +1,28 @@
-<form action="/criar-evento/confirmacao" method="post">
+<h2>Cadastrar Novo Evento</h2>
 
-<p >Titulo</p>
-<input type="text" name="titulo" id="titulo">
-<p>Descrição</p>
-<input type="text" name="descricao" id="descricao"><br><br>
-<p>Data</p>
-<input type="date" name="data" id="data"><br><br>
-<p>carga horária</p>
-<input type="number" name="carga_horaria" id="carga_horaria"><br><br>
-
-<button type="submit">Criar Evento</button>
+<form action="/criar-evento/confirmacao" method="POST">
+    <div>
+        <label for="titulo">Título do Evento:</label><br>
+        <input type="text" name="titulo" id="titulo" required>
+    </div>
+    <br>
+    <div>
+        <label for="descricao">Descrição:</label><br>
+        <textarea name="descricao" id="descricao" rows="4" cols="30" required></textarea>
+    </div>
+    <br>
+    <div>
+        <label for="data">Data do Evento:</label><br>
+        <input type="date" name="data" id="data" required>
+    </div>
+    <br>
+    <div>
+        <label for="carga_horaria">Carga Horária (em horas):</label><br>
+        <input type="number" name="carga_horaria" id="carga_horaria" min="1" required>
+    </div>
+    <br>
+    <button type="submit">Criar Evento</button>
 </form>
+
+<hr>
+<a href="/home"><button type="button">Voltar ao Painel</button></a>

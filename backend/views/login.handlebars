@@ -1,15 +1,23 @@
-<form action="/login/confirmacao" method="POST">
+<h2>Acessar Conta</h2>
 
 {{#if erro}}
-    <p style="color: red;">Senha ou email incorretos!</p>
+    <p style="color: red; font-weight: bold;">Senha ou e-mail incorretos!</p>
 {{/if}}
 
-<p>Login</p>
-<input type="text" name="email" id="email">
-<p>Senha</p>
-<input type="password" name="senha" id="senha"><br><br>
-
-<button type="submit">Entrar</button>
+<form action="/login/confirmacao" method="POST">
+    <div>
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" id="email" required>
+    </div>
+    <br>
+    <div>
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" id="senha" required>
+    </div>
+    <br>
+    <button type="submit">Entrar</button>
 </form>
 
-<button><a href="/registro">Registrar</a></button>
+<hr>
+<p>Não tem uma conta?</p>
+<a href="/registro"><button type="button">Registrar-se</button></a>
