@@ -1,0 +1,31 @@
+<h2>Editando</h2>
+
+<form action="/evento/editado" method="POST">
+    
+    <input type="hidden" name="id" value="{{id}}">
+
+    <div>
+        <label for="titulo">Título do Evento:</label><br>
+        <input type="text" name="titulo" id="titulo" value ="{{titulo}}" required>
+    </div>
+    <br>
+    <div>
+        <label for="descricao">Descrição:</label><br>
+        <textarea name="descricao" id="descricao" rows="4" cols="30" required>{{{descricao}}}</textarea>
+    </div>
+    <br>
+    <div>
+        <label for="data">Data do Evento:</label><br>
+        <input type="date" name="data" id="data" value ="{{data}}" required>
+    </div>
+    <br>
+    <div>
+        <label for="carga_horaria">Carga Horária (em horas):</label><br>
+        <input type="number" name="carga_horaria" id="carga_horaria" min="1" value="{{carga_horaria}}" required>
+    </div>
+    <br>
+    <button type="submit">Editar Evento</button>
+</form>
+
+<hr>
+<a href="/home"><button type="button">Voltar ao Painel</button></a>

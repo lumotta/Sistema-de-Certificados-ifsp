@@ -79,7 +79,7 @@ app.post("/registro/confirmacao", async function(req, res) {
                 codigo: req.session.token,
                 email: req.session.email,
                 utilizado: 0,
-                data_geracao: new Date(Date.now() + expirar),
+                data_geracao: Date.now(),
                 data_utilizacao: null
             })
 
