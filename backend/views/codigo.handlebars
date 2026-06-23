@@ -1,5 +1,9 @@
 <h2>Verificação de E-mail</h2>
 
+{{#if erro}}
+    <p style="color: red; font-weight: bold;">{{erro}}</p>
+{{/if}}
+
 <form action="/registro/codigo/confirmacao" method="POST">
     <label for="codigo">Digite o código que enviamos para o seu e-mail:</label><br><br>
     <input type="text" name="codigo" id="codigo" placeholder="Ex: 123456" required>

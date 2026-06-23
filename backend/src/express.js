@@ -1,7 +1,8 @@
 const express = require('express');
 const {engine} = require('express-handlebars'); //Importa o módulo handlebars
 const bodyparser = require('body-parser'); //Importa o módulo body-parser para lidar com dados de formulários
-const session = require('express-session')
+const session = require('express-session')//Importa módulos que permite a criação de variaveis da sessão do usuario
+const flash = require('connect-flash')//Importa o módulo que permite criações de mensagens de erro mais rápido
 require('dotenv').config();
 
 
@@ -19,7 +20,7 @@ app.use(session({ //criador de uma sessão para que não haja erro se mais de um
   }
 }));
 
-
+app.use(flash())//pega o flash 
 
 //config
     //handlebars
@@ -42,8 +43,8 @@ module.exports = {
 const Registro = require('./Conta/Registro'); //Importa o módulo de registro para configurar as rotas relacionadas ao registro de usuários
 const Login = require('./Conta/Login'); //Importa o módulo de login para configurar as rotas relacionadas ao login de usuários
 const CriarEvento = require('./Eventos/Criar'); //Importa o módulo de criação de eventos para configurar as rotas relacionadas à criação de eventos
-const ver = require('./Eventos/Mostrar')
-const inscrever = require('./Participantes/Inscrever')
+const ver = require('./Eventos/Mostrar')//Importa o modulo que mostra os eventos
+const inscrever = require('./Participantes/Inscrever')//Importa o modulo que permite a inscrição de usuarios
 
 
 

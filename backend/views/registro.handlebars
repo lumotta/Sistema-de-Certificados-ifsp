@@ -1,11 +1,11 @@
 <h2>Criar Nova Conta</h2>
 
-{{#if error}}
-    <p style="color: red; font-weight: bold;">Houve um erro ao criar o usuário.</p>
+{{#if erro}}
+    <p style="color: red; font-weight: bold;">{{erro}}</p>
 {{/if}}
 
-{{#if confirmacao}}
-    <p style="color: green; font-weight: bold;">Usuário criado com sucesso!</p>
+{{#if confirmado}}
+    <p style="color: green; font-weight: bold;">{{confirmado}}</p>
 {{/if}}
 
 <form action="/registro/confirmacao" method="POST"> 
